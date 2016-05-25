@@ -39,8 +39,9 @@ class ViewController : UIViewController, MKMapViewDelegate, CLLocationManagerDel
     var latitude : Double = 0.0
     var lat : String = ""
     var long : String = ""
+    @IBOutlet weak var mapView: MKMapView!
     var longitude : Double = 0.0
-    var map : MKMapView!
+    //var map : MKMapView!
 //    // Views that need to be accessible to all methods
 //    let latitudeResult = UILabel()
 //    let longitudeResult = UILabel()
@@ -88,15 +89,15 @@ class ViewController : UIViewController, MKMapViewDelegate, CLLocationManagerDel
             
             // Position the map
             let issCoordinates = CLLocationCoordinate2D(latitude: issLatitude, longitude: issLongitude + 0.001)
-            self.map.setCenterCoordinate(issCoordinates, animated: true)
+            self.mapView.setCenterCoordinate(issCoordinates, animated: true)
             let region = MKCoordinateRegion(center: issCoordinates, span: MKCoordinateSpan(latitudeDelta: 10.000, longitudeDelta: 10.000))
             //change both to 0.002
-            self.map.setRegion(region, animated: true)
+            self.mapView.setRegion(region, animated: true)
             
             // Add a pin at the location of the cooling centre
             let annotation = MKPointAnnotation()
             annotation.coordinate = CLLocationCoordinate2D(latitude: issLatitude, longitude: issLongitude - 0.0001)
-            self.map.addAnnotation(annotation)
+            self.mapView.addAnnotation(annotation)
             
             
             // Now we can update the UI
@@ -340,18 +341,18 @@ class ViewController : UIViewController, MKMapViewDelegate, CLLocationManagerDel
         // Add the label to the superview
         view.addSubview(longitudeValue)
         
-        
-        /*
-         * Further define map
-         */
-        let mapContainer : UIView = UIView(frame: CGRectMake(0, 0, 640, 350))
-        mapContainer.translatesAutoresizingMaskIntoConstraints = false
-        map = MKMapView(frame: CGRectMake(0, 0, 640, 350))
-        map.mapType = .Standard
-        map.delegate = self
-        //map.translatesAutoresizingMaskIntoConstraints = false
-        mapContainer.addSubview(map)
-        view.addSubview(mapContainer)
+//        
+//        /*
+//         * Further define map
+//         */
+//        let mapContainer : UIView = UIView(frame: CGRectMake(0, 0, 640, 350))
+//        mapContainer.translatesAutoresizingMaskIntoConstraints = false
+//        map = MKMapView(frame: CGRectMake(0, 0, 640, 350))
+//        map.mapType = .Standard
+//        map.delegate = self
+//        //map.translatesAutoresizingMaskIntoConstraints = false
+//        mapContainer.addSubview(map)
+//        view.addSubview(mapContainer)
         
         
         /*
@@ -388,7 +389,7 @@ class ViewController : UIViewController, MKMapViewDelegate, CLLocationManagerDel
         let viewsDictionary : [String : AnyObject] = [
             "title": title,
             "getData": getData,
-            "map": mapContainer,
+            //"map": mapContainer,
             "latitude": latitudeValue,
             "longitude": longitudeValue,
             "latitudeTitle": latitudeDisplay,
@@ -396,7 +397,7 @@ class ViewController : UIViewController, MKMapViewDelegate, CLLocationManagerDel
         
         // Define the vertical constraints
         let verticalConstraints = NSLayoutConstraint.constraintsWithVisualFormat(
-            "V:|-20-[title]-20-[getData]-30-[latitudeTitle]-5-[latitude]-10-[longitudeTitle]-5-[longitude]-30-[map]",
+            "V:|-20-[title]-20-[getData]-30-[latitudeTitle]-5-[latitude]-10-[longitudeTitle]-5-[longitude]",
             options: [],
             metrics: nil,
             views: viewsDictionary)
@@ -407,7 +408,7 @@ class ViewController : UIViewController, MKMapViewDelegate, CLLocationManagerDel
         //centre everything
         title.centerHorizontallyInSuperview()
         getData.centerHorizontallyInSuperview()
-        map.centerHorizontallyInSuperview()
+        //map.centerHorizontallyInSuperview()
         latitudeDisplay.centerHorizontallyInSuperview()
         latitudeValue.centerHorizontallyInSuperview()
         longitudeDisplay.centerHorizontallyInSuperview()
